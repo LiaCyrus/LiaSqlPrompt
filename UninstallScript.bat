@@ -1,0 +1,1 @@
+"F:\Microsoft SQL Server Management Studio 22\Release\Common7\IDE\VSIXInstaller.exe" /uninstall:LiaSqlPrompt.a4910154-0ff4-4562-a3fe-4c2beeb2e133

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Snippet>
+	<Header>
+		<Title>Select Statement</Title>
+		<Shortcut>sel</Shortcut>
+		<Description>Basic SELECT query</Description>
+	</Header>
+
+	<Code>
+		<![CDATA[
+SELECT *
+FROM $CURSOR$
+]]>
+	</Code>
+</Snippet>

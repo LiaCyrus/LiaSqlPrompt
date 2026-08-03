@@ -1,0 +1,93 @@
+{
+  "format": 1,
+  "restore": {
+    "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj": {}
+  },
+  "projects": {
+    "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj",
+        "projectName": "LiaSqlPrompt",
+        "projectPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj",
+        "packagesPath": "C:\\Users\\SF314-57\\.nuget\\packages\\",
+        "outputPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\SF314-57\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "framework": "net472",
+            "targetAlias": "net472",
+            "projectReferences": {
+              "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj": {
+                "projectPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.300"
+      },
+      "frameworks": {
+        "net472": {
+          "framework": "net472",
+          "targetAlias": "net472",
+          "dependencies": {
+            "Microsoft.VSSDK.BuildTools": {
+              "target": "Package",
+              "version": "[18.8.739, )"
+            },
+            "Microsoft.VisualStudio.SDK": {
+              "include": "Compile, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[17.14.40265, )"
+            },
+            "System.ComponentModel.Composition": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj": {
+      "restore": {
+        "projectUniqueName": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj",
+        "projectName": "SqlEngine",
+        "projectPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj",
+        "UsingMicrosoftNETSdk": false,
+        "frameworks": {
+          "net472": {
+            "framework": "net472",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "framework": "net472"
+        }
+      }
+    }
+  }
+}

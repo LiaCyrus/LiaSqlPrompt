@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Snippet>
+	<Header>
+		<Title>Inner Join</Title>
+		<Shortcut>join</Shortcut>
+		<Description>INNER JOIN statement</Description>
+	</Header>
+
+	<Code><![CDATA[
+INNER JOIN TableName
+    ON Table1.Id = TableName.Id
+]]></Code>
+</Snippet>

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="LiaSqlPrompt/LiaSqlPrompt.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="SqlEngine/SqlEngine.csproj" Id="42649a6d-74b8-42d3-98b6-72c72bf98475" />
+</Solution>

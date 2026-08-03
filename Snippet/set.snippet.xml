@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Snippet>
+    <Header>
+        <Title>SET Statement</Title>
+        <Shortcut>set</Shortcut>
+        <Description>Assign a variable value</Description>
+    </Header>
+
+    <Code><![CDATA[
+SET @Variable = $CURSOR$
+]]></Code>
+</Snippet>
