@@ -11,7 +11,7 @@ namespace LiaSqlPrompt.Editor
         private readonly CompletionService _completionService;
         private readonly CompletionPresenter _completionPresenter;
 
-        private CompletionSession? _session;
+        private ITrackingSpan? _completionSpan;
 
         public SqlCompletionController(IWpfTextView view)
         {
@@ -49,7 +49,7 @@ namespace LiaSqlPrompt.Editor
                 return false;
 
             _completionPresenter.Hide();
-            _session = null;
+            _completionSpan = null;
 
             return false;
         }
@@ -87,7 +87,7 @@ namespace LiaSqlPrompt.Editor
                 return false;
 
             _completionPresenter.Hide();
-            _session = null;
+            _completionSpan = null;
 
             // Let SSMS insert the space.
             return false;
@@ -98,9 +98,12 @@ namespace LiaSqlPrompt.Editor
             if (!_completionPresenter.IsVisible)
                 return false;
 
-            _completionPresenter.Accept(_view, _session);
+            if (_completionSpan == null)
+                return false;
 
-            _session = null;
+            _completionPresenter.Accept(_view, _completionSpan);
+
+            _completionSpan = null;
 
             return true;
         }
@@ -114,6 +117,8 @@ namespace LiaSqlPrompt.Editor
         {
             _view.TextBuffer.Changed -= OnTextBufferChanged;
             _view.Closed -= OnViewClosed;
+
+            _completionSpan = null;
         }
 
         private void UpdateCompletion(bool forceShow = false)
@@ -125,7 +130,8 @@ namespace LiaSqlPrompt.Editor
             if (string.IsNullOrWhiteSpace(word))
             {
                 _completionPresenter.Hide();
-                _session = null;
+                _completionSpan = null;
+
                 return;
             }
 
@@ -134,20 +140,16 @@ namespace LiaSqlPrompt.Editor
             if (!forceShow && items.Count == 0)
             {
                 _completionPresenter.Hide();
-                _session = null;
+                _completionSpan = null;
+
                 return;
             }
 
-            _session = new CompletionSession(
-                current.Start,
-                word.Length);
+            ITextSnapshot snapshot = _view.TextSnapshot;
 
-            var caret = _view.Caret.ContainingTextViewLine;
+            _completionSpan = snapshot.CreateTrackingSpan(current.Start, word.Length, SpanTrackingMode.EdgeInclusive);
 
-            double x = caret.Right;
-            double y = caret.Bottom;
-
-            _completionPresenter.Show(items, x, y);
+            _completionPresenter.Show(items);
         }
 
         private (string Word, int Start) GetCurrentWord()
