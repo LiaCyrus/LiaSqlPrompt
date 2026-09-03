@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj": {}
+    "C:\\MyGitHub\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj": {}
   },
   "projects": {
-    "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj": {
+    "C:\\MyGitHub\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj",
         "projectName": "LiaSqlPrompt",
-        "projectPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj",
-        "packagesPath": "C:\\Users\\SF314-57\\.nuget\\packages\\",
-        "outputPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\LiaSqlPrompt\\obj\\",
+        "projectPath": "C:\\MyGitHub\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj",
+        "packagesPath": "C:\\Users\\Arito\\.nuget\\packages\\",
+        "outputPath": "C:\\MyGitHub\\LiaSqlPrompt\\LiaSqlPrompt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\SF314-57\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Arito\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -29,8 +29,8 @@
             "framework": "net472",
             "targetAlias": "net472",
             "projectReferences": {
-              "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj": {
-                "projectPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj"
+              "C:\\MyGitHub\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj": {
+                "projectPath": "C:\\MyGitHub\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj"
               }
             }
           }
@@ -70,11 +70,11 @@
         }
       }
     },
-    "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj": {
+    "C:\\MyGitHub\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj": {
       "restore": {
-        "projectUniqueName": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj",
+        "projectUniqueName": "C:\\MyGitHub\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj",
         "projectName": "SqlEngine",
-        "projectPath": "F:\\Code Project\\VisualStudioExtension\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj",
+        "projectPath": "C:\\MyGitHub\\LiaSqlPrompt\\SqlEngine\\SqlEngine.csproj",
         "UsingMicrosoftNETSdk": false,
         "frameworks": {
           "net472": {
