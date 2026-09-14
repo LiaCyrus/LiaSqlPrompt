@@ -8,31 +8,31 @@ using System.ComponentModel.Composition;
 
 namespace LiaSqlPrompt.Editor
 {
-    [Export(typeof(IWpfTextViewCreationListener))]
-    [ContentType("text")]
-    [TextViewRole(PredefinedTextViewRoles.Document)]
-    public sealed class SqlEditorListener : IWpfTextViewCreationListener
+  [Export(typeof(IWpfTextViewCreationListener))]
+  [ContentType("text")]
+  [TextViewRole(PredefinedTextViewRoles.Document)]
+  public sealed class SqlEditorListener : IWpfTextViewCreationListener
+  {
+    [Import]
+    internal IVsEditorAdaptersFactoryService EditorAdaptersFactory { get; set; } = null!;
+
+    public void TextViewCreated(IWpfTextView textView)
     {
-        [Import]
-        internal IVsEditorAdaptersFactoryService EditorAdaptersFactory { get; set; } = null!;
+      ThreadHelper.ThrowIfNotOnUIThread();
 
-        public void TextViewCreated(IWpfTextView textView)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
+      var controller = new SqlCompletionController(textView);
 
-            var controller = new SqlCompletionController(textView);
+      IVsTextView? viewAdapter = EditorAdaptersFactory.GetViewAdapter(textView);
 
-            IVsTextView? viewAdapter = EditorAdaptersFactory.GetViewAdapter(textView);
+      if (viewAdapter == null) return;
 
-            if (viewAdapter == null) return;
+      var filter = new SqlCommandFilter(controller);
 
-            var filter = new SqlCommandFilter(controller);
+      IOleCommandTarget next;
 
-            IOleCommandTarget next;
+      viewAdapter.AddCommandFilter(filter, out next);
 
-            viewAdapter.AddCommandFilter(filter, out next);
-
-            filter.SetNextTarget(next);
-        }
+      filter.SetNextTarget(next);
     }
+  }
 }

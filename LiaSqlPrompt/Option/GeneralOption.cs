@@ -4,18 +4,18 @@ using System.ComponentModel;
 
 namespace LiaSqlPrompt.Option
 {
-    public sealed class GeneralOption : DialogPage
+  public sealed class GeneralOption : DialogPage
+  {
+    [Category("Snippet")]
+    [DisplayName("Snippet Folder")]
+    [Description("Folder containing .snippet files.")]
+    public string SnippetFolder { get; set; } = @"C:\LiaSqlPrompt\Snippet";
+
+    protected override void OnApply(PageApplyEventArgs e)
     {
-        [Category("Snippet")]
-        [DisplayName("Snippet Folder")]
-        [Description("Folder containing .snippet files.")]
-        public string SnippetFolder { get; set; } = @"C:\LiaSqlPrompt\Snippet";
+      base.OnApply(e);
 
-        protected override void OnApply(PageApplyEventArgs e)
-        {
-            base.OnApply(e);
-
-            SnippetRepository.Instance.Reload();
-        }
+      SnippetRepository.Instance.Reload();
     }
+  }
 }
