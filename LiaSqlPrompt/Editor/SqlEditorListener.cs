@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.Editor;
+using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Editor;
@@ -16,11 +16,14 @@ namespace LiaSqlPrompt.Editor
     [Import]
     internal IVsEditorAdaptersFactoryService EditorAdaptersFactory { get; set; } = null!;
 
+    [Import]
+    internal Microsoft.VisualStudio.Language.Intellisense.ICompletionBroker CompletionBroker { get; set; } = null!;
+
     public void TextViewCreated(IWpfTextView textView)
     {
       ThreadHelper.ThrowIfNotOnUIThread();
 
-      var controller = new SqlCompletionController(textView);
+      var controller = new SqlCompletionController(textView, CompletionBroker);
 
       IVsTextView? viewAdapter = EditorAdaptersFactory.GetViewAdapter(textView);
 

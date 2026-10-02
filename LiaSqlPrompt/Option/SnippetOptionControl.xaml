@@ -1,0 +1,207 @@
+<UserControl x:Class="LiaSqlPrompt.Option.SnippetOptionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="700">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <!-- Top: Folder path settings -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Main: Left list + Right editor -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Folder Configuration Section -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="Snippet Folder:"
+                       VerticalAlignment="Center"
+                       FontWeight="SemiBold"
+                       Margin="0,0,8,0"/>
+
+            <TextBox x:Name="SnippetFolderTextBox"
+                     Grid.Column="1"
+                     VerticalAlignment="Center"
+                     Padding="4,3"/>
+
+            <Button x:Name="BrowseFolderButton"
+                    Grid.Column="2"
+                    Content="Browse..."
+                    Margin="6,0,0,0"
+                    Padding="10,3"
+                    VerticalAlignment="Center"
+                    Click="BrowseFolderButton_Click"/>
+
+            <Button x:Name="SaveFolderButton"
+                    Grid.Column="3"
+                    Content="Update Folder"
+                    Margin="6,0,0,0"
+                    Padding="10,3"
+                    VerticalAlignment="Center"
+                    Click="SaveFolderButton_Click"/>
+        </Grid>
+
+        <Separator Grid.Row="1" Margin="0,0,0,10"/>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <!-- Left pane: Snippet List & Controls -->
+                <ColumnDefinition Width="220" MinWidth="160"/>
+                <ColumnDefinition Width="8"/>
+                <!-- Right pane: Snippet Editor Form -->
+                <ColumnDefinition Width="*" MinWidth="320"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Column -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Snippets"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                    <Button x:Name="RefreshButton"
+                            Grid.Column="1"
+                            Content="Refresh"
+                            Padding="8,2"
+                            Click="RefreshButton_Click"/>
+                </Grid>
+
+                <TextBox x:Name="SearchBox"
+                         Grid.Row="1"
+                         Margin="0,0,0,6"
+                         Padding="4,2"
+                         TextChanged="SearchBox_TextChanged"/>
+
+                <ListBox x:Name="SnippetsListBox"
+                         Grid.Row="2"
+                         DisplayMemberPath="Shortcut"
+                         SelectionChanged="SnippetsListBox_SelectionChanged"/>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                    <Button x:Name="NewButton"
+                            Content="New Snippet"
+                            Padding="10,3"
+                            Margin="0,0,6,0"
+                            Click="NewButton_Click"/>
+                    <Button x:Name="DeleteButton"
+                            Content="Delete"
+                            Padding="10,3"
+                            Click="DeleteButton_Click"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Splitter -->
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
+
+            <!-- Right Column (Editor) -->
+            <Grid Grid.Column="2" Margin="6,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="HeaderTitleTextBlock"
+                           Grid.Row="0"
+                           Text="Create Snippet"
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,10"/>
+
+                <!-- Shortcut -->
+                <Grid Grid.Row="1" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Shortcut:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="ShortcutTextBox" Grid.Column="1" Padding="4,2"/>
+                </Grid>
+
+                <!-- Title -->
+                <Grid Grid.Row="2" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Title:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TitleTextBox" Grid.Column="1" Padding="4,2"/>
+                </Grid>
+
+                <!-- Description -->
+                <Grid Grid.Row="3" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Description:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="DescriptionTextBox" Grid.Column="1" Padding="4,2"/>
+                </Grid>
+
+                <!-- Code header -->
+                <TextBlock Grid.Row="4"
+                           Text="SQL Code (use $CURSOR$ for insertion point):"
+                           Margin="0,4,0,4"/>
+
+                <!-- Code editor -->
+                <TextBox x:Name="CodeTextBox"
+                         Grid.Row="5"
+                         AcceptsReturn="True"
+                         AcceptsTab="True"
+                         FontFamily="Consolas, Courier New, monospace"
+                         FontSize="12"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto"
+                         Padding="4"
+                         Margin="0,0,0,8"/>
+
+                <!-- Action buttons and status -->
+                <Grid Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="StatusTextBlock"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis"
+                               Margin="0,0,8,0"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button x:Name="SaveButton"
+                                Content="Save Snippet"
+                                Padding="14,4"
+                                Click="SaveButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

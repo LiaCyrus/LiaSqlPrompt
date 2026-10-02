@@ -1,4 +1,4 @@
-﻿using LiaSqlPrompt.Completion;
+using LiaSqlPrompt.Completion;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using System;
@@ -8,19 +8,38 @@ namespace LiaSqlPrompt.Editor
   public sealed class SqlCompletionController
   {
     private readonly IWpfTextView _view;
+    private readonly Microsoft.VisualStudio.Language.Intellisense.ICompletionBroker _completionBroker;
     private readonly CompletionService _completionService;
     private readonly CompletionPresenter _completionPresenter;
 
     private ITrackingSpan? _completionSpan;
 
-    public SqlCompletionController(IWpfTextView view)
+    public bool IsCompletionActive => _completionPresenter.IsVisible;
+
+    public SqlCompletionController(IWpfTextView view, Microsoft.VisualStudio.Language.Intellisense.ICompletionBroker completionBroker)
     {
       _view = view;
+      _completionBroker = completionBroker;
       _completionService = new CompletionService();
       _completionPresenter = new CompletionPresenter(view);
 
       _view.TextBuffer.Changed += OnTextBufferChanged;
       _view.Closed += OnViewClosed;
+    }
+
+    public void CheckAndYieldIfNativeActive()
+    {
+      try
+      {
+        if (_completionPresenter.IsVisible && _completionBroker.IsCompletionActive(_view))
+        {
+          _completionPresenter.Hide();
+          _completionSpan = null;
+        }
+      }
+      catch
+      {
+      }
     }
 
     public bool HandleTypeChar()
@@ -140,6 +159,20 @@ namespace LiaSqlPrompt.Editor
         _completionSpan = null;
 
         return;
+      }
+
+      // If native SQL Server IntelliSense is already active, yield to it and turn off our completion.
+      try
+      {
+        if (_completionBroker.IsCompletionActive(_view))
+        {
+          _completionPresenter.Hide();
+          _completionSpan = null;
+          return;
+        }
+      }
+      catch
+      {
       }
 
       var items = _completionService.Search(word);

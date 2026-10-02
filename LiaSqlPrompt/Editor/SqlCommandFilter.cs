@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using System.Runtime.InteropServices;
@@ -38,8 +38,9 @@ namespace LiaSqlPrompt.Editor
       if (pguidCmdGroup == VSConstants.VSStd2K)
       {
         bool handled = false;
+        var cmd = (VSConstants.VSStd2KCmdID)nCmdID;
 
-        switch ((VSConstants.VSStd2KCmdID)nCmdID)
+        switch (cmd)
         {
           case VSConstants.VSStd2KCmdID.TYPECHAR:
             if (pvaIn != System.IntPtr.Zero)
@@ -87,7 +88,12 @@ namespace LiaSqlPrompt.Editor
           return VSConstants.S_OK;
       }
 
-      return _next!.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+      int result = _next!.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+
+      // After native target executes the keystroke/command, check if it opened native IntelliSense
+      _controller.CheckAndYieldIfNativeActive();
+
+      return result;
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿using LiaSqlPrompt.Option;
+using LiaSqlPrompt.Option;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
@@ -28,6 +28,7 @@ namespace LiaSqlPrompt
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
     [ProvideOptionPage(typeof(GeneralOption), "Lia SQL Prompt", "General", 0, 0, true)]
+    [ProvideOptionPage(typeof(SnippetOptionPage), "Lia SQL Prompt", "Snippets", 0, 0, true)]
     [Guid(LiaSqlPromptPackage.PackageGuidString)]
     public sealed class LiaSqlPromptPackage : AsyncPackage
     {

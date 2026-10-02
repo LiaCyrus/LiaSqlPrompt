@@ -1,4 +1,4 @@
-﻿using LiaSqlPrompt.Option;
+using LiaSqlPrompt.Option;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +27,7 @@ namespace LiaSqlPrompt.Snippet
 
     private void Load()
     {
-      string folder = OptionService.General.SnippetFolder;
+      string folder = OptionService.Snippet.SnippetFolder;
 
       if (!Directory.Exists(folder))
         return;

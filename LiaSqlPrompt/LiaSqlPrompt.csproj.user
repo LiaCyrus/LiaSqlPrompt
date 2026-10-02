@@ -10,5 +10,11 @@
     <Compile Update="Option\GeneralOption.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Option\SnippetOption.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Option\SnippetOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

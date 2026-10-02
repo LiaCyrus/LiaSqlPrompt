@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Linq;
 
 namespace LiaSqlPrompt.Snippet
@@ -24,7 +24,8 @@ namespace LiaSqlPrompt.Snippet
           header.Element("Title")?.Value ?? "",
           header.Element("Shortcut")?.Value ?? "",
           header.Element("Description")?.Value ?? "",
-          code
+          code,
+          filePath
       );
     }
 

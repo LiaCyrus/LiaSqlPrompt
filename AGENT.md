@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-LiaSqlPrompt is a Visual Studio VSIX extension that provides SQL editor assistance.
+LiaSqlPrompt is a SQL Server VSIX extension that provides SQL editor assistance.
 
 Current primary features:
 
@@ -35,18 +35,25 @@ LiaSqlPrompt/
 │   │
 │   ├── Option/
 │   │   ├── GeneralOption.cs
-│   │   └── OptionService.cs
+│   │   ├── OptionService.cs
+│   │   ├── SnippetOption.cs
+│   │   ├── SnippetOptionControl.xaml
+│   │   ├── SnippetOptionControl.xaml.cs
+│   │   └── SnippetOptionPage.cs
 │   │
 │   ├── Snippet/
 │   │   ├── SnippetDefinition.cs
 │   │   ├── SnippetLoader.cs
 │   │   ├── SnippetRepository.cs
 │   │   ├── SnippetService.cs
+│   │   ├── SnippetWriter.cs
 │   │   └── *.snippet.xml
 │   │
 │   └── SqlEngine/
 │       ├── SqlEngine.csproj
-│       ├── ...
+│       ├── SqlKeywords.cs
+│       ├── SqlToken.cs
+│       ├── SqlTokenizer.cs
 │       └── AssemblyInfo.cs
 │
 ├── README.md
