@@ -20,6 +20,7 @@ LiaSqlPrompt/
 ├── LiaSqlPrompt/
 │   ├── LiaSqlPrompt.csproj
 │   ├── LiaSqlPromptPackage.cs
+│   ├── KeywordsManager.cs
 │   ├── Logger.cs
 │   │
 │   ├── Completion/
@@ -51,9 +52,13 @@ LiaSqlPrompt/
 │   │
 │   └── SqlEngine/
 │       ├── SqlEngine.csproj
-│       ├── SqlKeywords.cs
-│       ├── SqlToken.cs
-│       ├── SqlTokenizer.cs
+│       ├── Keywords/
+│       │   ├── KeywordsLoader.cs
+│       │   ├── SqlKeywords.cs
+│       │   └── sql-keywords.json
+│       ├── Lexing/
+│       │   ├── SqlToken.cs
+│       │   └── SqlTokenizer.cs
 │       └── AssemblyInfo.cs
 │
 ├── README.md
