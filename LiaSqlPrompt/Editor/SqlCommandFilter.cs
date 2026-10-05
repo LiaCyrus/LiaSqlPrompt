@@ -52,11 +52,11 @@ namespace LiaSqlPrompt.Editor
                 if (ch == ' ')
                   handled = _controller.HandleSpace();
                 else
-                  handled = _controller.HandleTypeChar();
+                  handled = _controller.HandleTypeChar(ch);
               }
               catch
               {
-                handled = _controller.HandleTypeChar();
+                handled = _controller.HandleTypeChar('\0');
               }
             }
 

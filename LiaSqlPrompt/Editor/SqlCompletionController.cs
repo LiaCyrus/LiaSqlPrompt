@@ -42,8 +42,19 @@ namespace LiaSqlPrompt.Editor
       }
     }
 
-    public bool HandleTypeChar()
+    public bool HandleTypeChar(char ch)
     {
+      if (ch == '(' || ch == ')' || ch == ';' || ch == ',')
+      {
+        if (_completionPresenter.IsVisible)
+        {
+          _completionPresenter.Hide();
+          _completionSpan = null;
+        }
+
+        FormatKeywordBeforeCaret();
+      }
+
       return false;
     }
 
@@ -100,14 +111,57 @@ namespace LiaSqlPrompt.Editor
 
     public bool HandleSpace()
     {
-      if (!_completionPresenter.IsVisible)
-        return false;
+      if (_completionPresenter.IsVisible)
+      {
+        _completionPresenter.Hide();
+        _completionSpan = null;
+      }
 
-      _completionPresenter.Hide();
-      _completionSpan = null;
+      FormatKeywordBeforeCaret();
 
-      // Let SSMS insert the space.
+      // Return false so SSMS / VS editor inserts the space character naturally.
       return false;
+    }
+
+    private void FormatKeywordBeforeCaret()
+    {
+      try
+      {
+        var casing = Option.OptionService.General?.KeywordCasingOnSpace ?? SqlEngine.KeywordCasing.Uppercase;
+        if (casing == SqlEngine.KeywordCasing.Disabled)
+          return;
+
+        var caret = _view.Caret.Position.BufferPosition;
+        int caretPos = caret.Position;
+        if (caretPos <= 0)
+          return;
+
+        var snapshot = _view.TextSnapshot;
+        var line = snapshot.GetLineFromPosition(caretPos);
+        string lineText = line.GetText();
+        int offsetInLine = caretPos - line.Start.Position;
+
+        if (SqlEngine.SqlKeywordCaser.TryGetKeywordFormatReplacement(
+          lineText,
+          offsetInLine,
+          casing,
+          out var targetSpan,
+          out string formattedWord))
+        {
+          int replaceStart = line.Start.Position + targetSpan.Start;
+          var spanToReplace = new SnapshotSpan(snapshot, replaceStart, targetSpan.Length);
+
+          using (ITextEdit edit = _view.TextBuffer.CreateEdit())
+          {
+            edit.Replace(spanToReplace, formattedWord);
+            edit.Apply();
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        Logger.Log($"Error formatting keyword on space: {ex.Message}");
+      }
     }
 
     private bool CommitSelection()
@@ -173,6 +227,28 @@ namespace LiaSqlPrompt.Editor
       }
       catch
       {
+      }
+
+      // Check if current word is preceded by a dot '.', indicating a column/member access (e.g. x.i or a.id)
+      // In that case, do not show keyword completions (let SSMS column IntelliSense take over).
+      var line = snapshot.GetLineFromPosition(caretPosition);
+      string lineText = line.GetText();
+      int offsetInLine = caretPosition - line.Start.Position;
+
+      if (SqlEngine.SqlKeywordCaser.IsPrecededByDot(lineText, offsetInLine))
+      {
+        _completionPresenter.Hide();
+        _completionSpan = null;
+        return;
+      }
+
+      // Check if current word is immediately after FROM, JOIN, INTO, UPDATE, TABLE
+      // where a table/object name or alias is expected rather than a keyword recommendation (e.g. select * from select).
+      if (SqlEngine.SqlKeywordCaser.IsInTableSourceContext(lineText, offsetInLine))
+      {
+        _completionPresenter.Hide();
+        _completionSpan = null;
+        return;
       }
 
       var items = _completionService.Search(word);

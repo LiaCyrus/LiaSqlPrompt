@@ -17,6 +17,11 @@ namespace LiaSqlPrompt.Option
     public bool CapitalizeKeywords { get; set; } = true;
 
     [Category("Keywords")]
+    [DisplayName("Keyword Casing on Delimiter")]
+    [Description("Casing applied to SQL keywords and functions when typing and pressing Space or delimiter characters (e.g. '('): Uppercase, Lowercase, or Disabled.")]
+    public SqlEngine.KeywordCasing KeywordCasingOnSpace { get; set; } = SqlEngine.KeywordCasing.Uppercase;
+
+    [Category("Keywords")]
     [DisplayName("Keywords JSON File Path")]
     [Description("Optional custom path for keywords JSON. If empty or relative, it resolves inside the Root Folder as keywords.json.")]
     public string CustomKeywordsFilePath { get; set; } = "keywords.json";
