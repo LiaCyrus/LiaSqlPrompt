@@ -27,7 +27,8 @@ namespace LiaSqlPrompt
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [ProvideAutoLoad(UIContextGuids80.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
-    [ProvideOptionPage(typeof(GeneralOption), "Lia SQL Prompt", "General", 0, 0, true)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(typeof(GeneralOptionPage), "Lia SQL Prompt", "General", 0, 0, true)]
     [ProvideOptionPage(typeof(SnippetOptionPage), "Lia SQL Prompt", "Snippets", 0, 0, true)]
     [Guid(LiaSqlPromptPackage.PackageGuidString)]
     public sealed class LiaSqlPromptPackage : AsyncPackage
@@ -53,6 +54,37 @@ namespace LiaSqlPrompt
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             OptionService.Initialize(this);
             KeywordsManager.Initialize();
+
+            if (await GetServiceAsync(typeof(System.ComponentModel.Design.IMenuCommandService)) is OleMenuCommandService commandService)
+            {
+                var uppercaseCommandId = new System.ComponentModel.Design.CommandID(PackageIds.CommandSetGuid, PackageIds.FormatKeywordsUppercaseCommandId);
+                var uppercaseMenuItem = new OleMenuCommand((s, e) =>
+                {
+                    Editor.SqlEditorListener.ActiveController?.FormatAllKeywordsToUppercase();
+                }, uppercaseCommandId);
+
+                uppercaseMenuItem.BeforeQueryStatus += (s, e) =>
+                {
+                    uppercaseMenuItem.Enabled = Editor.SqlEditorListener.ActiveController != null;
+                    uppercaseMenuItem.Supported = true;
+                };
+
+                commandService.AddCommand(uppercaseMenuItem);
+
+                var lowercaseCommandId = new System.ComponentModel.Design.CommandID(PackageIds.CommandSetGuid, PackageIds.FormatKeywordsLowercaseCommandId);
+                var lowercaseMenuItem = new OleMenuCommand((s, e) =>
+                {
+                    Editor.SqlEditorListener.ActiveController?.FormatAllKeywordsToLowercase();
+                }, lowercaseCommandId);
+
+                lowercaseMenuItem.BeforeQueryStatus += (s, e) =>
+                {
+                    lowercaseMenuItem.Enabled = Editor.SqlEditorListener.ActiveController != null;
+                    lowercaseMenuItem.Supported = true;
+                };
+
+                commandService.AddCommand(lowercaseMenuItem);
+            }
         }
 
         #endregion

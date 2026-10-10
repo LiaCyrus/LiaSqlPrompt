@@ -19,11 +19,25 @@ namespace LiaSqlPrompt.Editor
     [Import]
     internal Microsoft.VisualStudio.Language.Intellisense.ICompletionBroker CompletionBroker { get; set; } = null!;
 
+    public static SqlCompletionController? ActiveController { get; private set; }
+
     public void TextViewCreated(IWpfTextView textView)
     {
       ThreadHelper.ThrowIfNotOnUIThread();
 
       var controller = new SqlCompletionController(textView, CompletionBroker);
+
+      textView.GotAggregateFocus += (s, e) => ActiveController = controller;
+      textView.Closed += (s, e) =>
+      {
+        if (ActiveController == controller)
+          ActiveController = null;
+      };
+
+      if (textView.HasAggregateFocus)
+      {
+        ActiveController = controller;
+      }
 
       IVsTextView? viewAdapter = EditorAdaptersFactory.GetViewAdapter(textView);
 

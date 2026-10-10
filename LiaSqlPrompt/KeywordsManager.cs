@@ -17,25 +17,69 @@ namespace LiaSqlPrompt
       Reload();
     }
 
+    public static string GetKeywordsFilePath()
+    {
+      string rootFolder = OptionService.General?.RootFolder?.Trim() ?? @"C:\LiaSqlPrompt";
+      if (string.IsNullOrWhiteSpace(rootFolder))
+      {
+        rootFolder = @"C:\LiaSqlPrompt";
+      }
+
+      string customFile = OptionService.General?.CustomKeywordsFilePath?.Trim() ?? "keywords.json";
+      if (string.IsNullOrWhiteSpace(customFile))
+      {
+        customFile = "keywords.json";
+      }
+
+      return Path.IsPathRooted(customFile)
+          ? customFile
+          : Path.Combine(rootFolder, customFile);
+    }
+
+    public static bool ResetToDefaultFile(out string message)
+    {
+      lock (_syncRoot)
+      {
+        string filePath = GetKeywordsFilePath();
+        try
+        {
+          string directory = Path.GetDirectoryName(filePath);
+          if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+          {
+            Directory.CreateDirectory(directory);
+          }
+
+          string defaultJson = SqlKeywords.GetDefaultKeywordsJsonString();
+          if (string.IsNullOrWhiteSpace(defaultJson))
+          {
+            message = "Default keywords JSON resource could not be found in the extension.";
+            return false;
+          }
+
+          File.WriteAllText(filePath, defaultJson, System.Text.Encoding.UTF8);
+
+          KeywordsLoader.Current = KeywordsLoader.LoadDefault();
+          SqlKeywords.ResetToDefault();
+          SetupFileWatcher(filePath);
+
+          message = $"Successfully restored keywords to default and updated '{filePath}'.";
+          Logger.Log(message);
+          return true;
+        }
+        catch (Exception ex)
+        {
+          message = $"Failed to reset keywords: {ex.Message}";
+          Logger.Log(message);
+          return false;
+        }
+      }
+    }
+
     public static void Reload()
     {
       lock (_syncRoot)
       {
-        string rootFolder = OptionService.General?.RootFolder?.Trim() ?? @"C:\LiaSqlPrompt";
-        if (string.IsNullOrWhiteSpace(rootFolder))
-        {
-          rootFolder = @"C:\LiaSqlPrompt";
-        }
-
-        string customFile = OptionService.General?.CustomKeywordsFilePath?.Trim() ?? "keywords.json";
-        if (string.IsNullOrWhiteSpace(customFile))
-        {
-          customFile = "keywords.json";
-        }
-
-        string filePath = Path.IsPathRooted(customFile)
-            ? customFile
-            : Path.Combine(rootFolder, customFile);
+        string filePath = GetKeywordsFilePath();
 
         try
         {
@@ -60,17 +104,20 @@ namespace LiaSqlPrompt
           if (File.Exists(filePath))
           {
             var config = KeywordsLoader.LoadFromFile(filePath);
+            KeywordsLoader.Current = config;
             SqlKeywords.SetKeywords(config.GetAllItems());
             Logger.Log($"Loaded keywords/functions from {filePath}");
           }
           else
           {
+            KeywordsLoader.Current = KeywordsLoader.LoadDefault();
             SqlKeywords.ResetToDefault();
             Logger.Log($"Keywords file not accessible at {filePath}. Using built-in defaults.");
           }
         }
         catch (Exception ex)
         {
+          KeywordsLoader.Current = KeywordsLoader.LoadDefault();
           SqlKeywords.ResetToDefault();
           Logger.Log($"Error processing keywords file '{filePath}': {ex.Message}");
         }

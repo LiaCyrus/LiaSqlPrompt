@@ -1,0 +1,83 @@
+<UserControl x:Class="LiaSqlPrompt.Option.GeneralOptionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="650">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16" MaxWidth="700" HorizontalAlignment="Left">
+            <!-- Group: Paths -->
+            <GroupBox Header="File Paths &amp; Directories" Margin="0,0,0,16" Padding="12">
+                <StackPanel>
+                    <TextBlock Text="Root Folder" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock Text="Root directory for LiaSqlPrompt configuration files and snippets." 
+                               Foreground="#666666" Margin="0,0,0,6" TextWrapping="Wrap"/>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="RootFolderTextBox" Grid.Column="0" Padding="6,4" VerticalAlignment="Center"/>
+                        <Button x:Name="BrowseRootFolderButton" Grid.Column="1" Content="Browse..." Margin="8,0,0,0" Padding="12,4" Click="BrowseRootFolderButton_Click"/>
+                    </Grid>
+
+                    <TextBlock Text="Keywords JSON File" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock Text="Filename or full path for keywords JSON. Relative paths resolve inside the Root Folder." 
+                               Foreground="#666666" Margin="0,0,0,6" TextWrapping="Wrap"/>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="KeywordsFilePathTextBox" Grid.Column="0" Padding="6,4" VerticalAlignment="Center"/>
+                        <Button x:Name="BrowseKeywordsFileButton" Grid.Column="1" Content="Browse..." Margin="8,0,0,0" Padding="12,4" Click="BrowseKeywordsFileButton_Click"/>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Group: Keywords & Casing -->
+            <GroupBox Header="Keyword Completion &amp; Casing" Margin="0,0,0,16" Padding="12">
+                <StackPanel>
+                    <CheckBox x:Name="CapitalizeKeywordsCheckBox" 
+                              Content="Insert keywords in UPPERCASE in completion list" 
+                              Margin="0,0,0,12" 
+                              FontWeight="SemiBold"/>
+
+                    <TextBlock Text="Automatic Keyword Casing on Delimiter" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock Text="Casing applied when typing SQL keywords/functions and hitting Space or delimiter characters (e.g. '(')." 
+                               Foreground="#666666" Margin="0,0,0,6" TextWrapping="Wrap"/>
+                    <ComboBox x:Name="KeywordCasingComboBox" Width="200" HorizontalAlignment="Left" Padding="6,4" Margin="0,0,0,6">
+                        <ComboBoxItem Content="Uppercase" Tag="Uppercase"/>
+                        <ComboBoxItem Content="Lowercase" Tag="Lowercase"/>
+                        <ComboBoxItem Content="Disabled" Tag="Disabled"/>
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Group: Reset Keywords -->
+            <GroupBox Header="Reset Keywords to Default" Margin="0,0,0,16" Padding="12">
+                <StackPanel>
+                    <TextBlock Text="Restore Default Keywords Configuration" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock Text="Overwrite the current keywords JSON file with the built-in extension default list, removing all customized keyword changes and reloading default keywords immediately." 
+                               Foreground="#666666" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ResetKeywordsButton" 
+                                Content="Reset keywords.json to Default" 
+                                Padding="14,6" 
+                                FontWeight="SemiBold"
+                                Click="ResetKeywordsButton_Click"/>
+                        <Button x:Name="OpenKeywordsFolderButton" 
+                                Content="Open Folder in Explorer" 
+                                Margin="10,0,0,0"
+                                Padding="12,6" 
+                                Click="OpenKeywordsFolderButton_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Status message -->
+            <TextBlock x:Name="StatusTextBlock" Margin="4,4,0,0" Visibility="Collapsed" TextWrapping="Wrap"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

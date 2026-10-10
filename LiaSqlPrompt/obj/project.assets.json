@@ -256,6 +256,60 @@
           }
         }
       },
+      "Microsoft.SqlServer.TransactSql.ScriptDom/180.117.0": {
+        "type": "package",
+        "compile": {
+          "lib/net472/Microsoft.SqlServer.TransactSql.ScriptDom.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/Microsoft.SqlServer.TransactSql.ScriptDom.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "resource": {
+          "lib/net472/cs/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/net472/de/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "de"
+          },
+          "lib/net472/es/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "es"
+          },
+          "lib/net472/fr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/net472/it/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "it"
+          },
+          "lib/net472/ja/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/net472/ko/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/net472/pl/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/net472/pt-BR/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/net472/ru/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/net472/tr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/net472/zh-Hans/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/net472/zh-Hant/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
       "Microsoft.VisualStudio.CommandBars/17.14.40260": {
         "type": "package",
         "dependencies": {
@@ -2510,6 +2564,10 @@
       },
       "SqlEngine/1.0.0": {
         "type": "project",
+        "framework": ".NETFramework,Version=v4.7.2",
+        "dependencies": {
+          "Microsoft.SqlServer.TransactSql.ScriptDom": "180.117.0"
+        },
         "compile": {
           "bin/placeholder/SqlEngine.dll": {}
         },
@@ -2979,6 +3037,83 @@
         "lib/netstandard2.0/zh-Hant/Microsoft.ServiceHub.Resources.dll",
         "microsoft.servicehub.resources.4.6.2052.nupkg.sha512",
         "microsoft.servicehub.resources.nuspec"
+      ]
+    },
+    "Microsoft.SqlServer.TransactSql.ScriptDom/180.117.0": {
+      "sha512": "VMaO1kz5dbufYly4jl+CUhrq0X+zb/3uTE16izqKi3lIDq1aYfWxxRxsj31KnwU1sMKLTyhhBYW+LMZBJyFBqg==",
+      "type": "package",
+      "path": "microsoft.sqlserver.transactsql.scriptdom/180.117.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net472/Microsoft.SqlServer.TransactSql.ScriptDom.dll",
+        "lib/net472/Microsoft.SqlServer.TransactSql.ScriptDom.pdb",
+        "lib/net472/Microsoft.SqlServer.TransactSql.ScriptDom.xml",
+        "lib/net472/cs/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/de/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/es/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/fr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/it/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/ja/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/ko/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/pl/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/pt-BR/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/ru/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/tr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/zh-Hans/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net472/zh-Hant/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/Microsoft.SqlServer.TransactSql.ScriptDom.dll",
+        "lib/net8.0/Microsoft.SqlServer.TransactSql.ScriptDom.pdb",
+        "lib/net8.0/Microsoft.SqlServer.TransactSql.ScriptDom.xml",
+        "lib/net8.0/cs/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/de/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/es/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/fr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/it/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/ja/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/ko/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/pl/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/pt-BR/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/ru/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/tr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/zh-Hans/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/net8.0/zh-Hant/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/Microsoft.SqlServer.TransactSql.ScriptDom.dll",
+        "lib/netstandard2.0/Microsoft.SqlServer.TransactSql.ScriptDom.pdb",
+        "lib/netstandard2.0/Microsoft.SqlServer.TransactSql.ScriptDom.xml",
+        "lib/netstandard2.0/cs/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/de/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/es/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/fr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/it/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/ja/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/ko/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/pl/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/pt-BR/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/ru/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/tr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/zh-Hans/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.0/zh-Hant/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/Microsoft.SqlServer.TransactSql.ScriptDom.dll",
+        "lib/netstandard2.1/Microsoft.SqlServer.TransactSql.ScriptDom.pdb",
+        "lib/netstandard2.1/Microsoft.SqlServer.TransactSql.ScriptDom.xml",
+        "lib/netstandard2.1/cs/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/de/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/es/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/fr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/it/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/ja/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/ko/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/pl/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/pt-BR/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/ru/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/tr/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/zh-Hans/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "lib/netstandard2.1/zh-Hant/Microsoft.SqlServer.TransactSql.ScriptDom.resources.dll",
+        "microsoft.sqlserver.transactsql.scriptdom.180.117.0.nupkg.sha512",
+        "microsoft.sqlserver.transactsql.scriptdom.nuspec",
+        "nuspecicon.png"
       ]
     },
     "Microsoft.VisualStudio.CommandBars/17.14.40260": {

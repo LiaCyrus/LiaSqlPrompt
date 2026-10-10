@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "BjsoGublaOU=",
+  "dgSpecHash": "FVPnhJ6VLE4=",
   "success": true,
   "projectFilePath": "C:\\MyGitHub\\LiaSqlPrompt\\LiaSqlPrompt\\LiaSqlPrompt.csproj",
   "expectedPackageFiles": [
@@ -21,6 +21,7 @@
     "C:\\Users\\Arito\\.nuget\\packages\\microsoft.servicehub.analyzers\\4.8.55\\microsoft.servicehub.analyzers.4.8.55.nupkg.sha512",
     "C:\\Users\\Arito\\.nuget\\packages\\microsoft.servicehub.framework\\4.8.55\\microsoft.servicehub.framework.4.8.55.nupkg.sha512",
     "C:\\Users\\Arito\\.nuget\\packages\\microsoft.servicehub.resources\\4.6.2052\\microsoft.servicehub.resources.4.6.2052.nupkg.sha512",
+    "C:\\Users\\Arito\\.nuget\\packages\\microsoft.sqlserver.transactsql.scriptdom\\180.117.0\\microsoft.sqlserver.transactsql.scriptdom.180.117.0.nupkg.sha512",
     "C:\\Users\\Arito\\.nuget\\packages\\microsoft.visualstudio.commandbars\\17.14.40260\\microsoft.visualstudio.commandbars.17.14.40260.nupkg.sha512",
     "C:\\Users\\Arito\\.nuget\\packages\\microsoft.visualstudio.componentmodelhost\\17.14.106\\microsoft.visualstudio.componentmodelhost.17.14.106.nupkg.sha512",
     "C:\\Users\\Arito\\.nuget\\packages\\microsoft.visualstudio.composition\\17.13.41\\microsoft.visualstudio.composition.17.13.41.nupkg.sha512",

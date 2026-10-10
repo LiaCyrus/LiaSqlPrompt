@@ -25,46 +25,8 @@ namespace SqlEngine
       if (string.IsNullOrEmpty(sqlText) || offset <= 0)
         return false;
 
-      int scanOffset = Math.Min(offset, sqlText.Length);
-      var tokens = SqlQueryParser.ParseTokens(sqlText);
-      if (tokens.Count == 0)
-        return false;
-
-      // Find the token at or ending at scanOffset
-      int tokenIndex = -1;
-      for (int i = 0; i < tokens.Count; i++)
-      {
-        var t = tokens[i];
-        if (t.Offset + t.Length == scanOffset)
-        {
-          tokenIndex = i;
-          break;
-        }
-        if (t.Offset <= scanOffset && scanOffset <= t.Offset + t.Length)
-        {
-          tokenIndex = i;
-        }
-      }
-
-      if (tokenIndex < 0)
-        return false;
-
-      for (int prev = tokenIndex - 1; prev >= 0; prev--)
-      {
-        var prevToken = tokens[prev];
-        if (prevToken.TokenType == SqlParserTokenType.Whitespace ||
-            prevToken.TokenType == SqlParserTokenType.Comment)
-        {
-          continue;
-        }
-
-        if (prevToken.TokenType == SqlParserTokenType.Dot)
-          return true;
-
-        break;
-      }
-
-      return false;
+      var context = SqlEngine.Completion.SqlCompletionContextAnalyzer.Analyze(sqlText, offset);
+      return context.Kind == SqlEngine.Completion.SqlCompletionContextKind.ColumnReference;
     }
 
     /// <summary>
@@ -78,55 +40,13 @@ namespace SqlEngine
       if (string.IsNullOrEmpty(sqlText) || offset <= 0)
         return false;
 
-      int scanOffset = Math.Min(offset, sqlText.Length);
-      var tokens = SqlQueryParser.ParseTokens(sqlText);
-      if (tokens.Count == 0)
-        return false;
-
-      int tokenIndex = -1;
-      for (int i = 0; i < tokens.Count; i++)
-      {
-        var t = tokens[i];
-        if (t.Offset + t.Length == scanOffset)
-        {
-          tokenIndex = i;
-          break;
-        }
-        if (t.Offset <= scanOffset && scanOffset <= t.Offset + t.Length)
-        {
-          tokenIndex = i;
-        }
-      }
-
-      if (tokenIndex < 0)
-        return false;
-
-      // Scan backwards skipping whitespace and comments
-      for (int prev = tokenIndex - 1; prev >= 0; prev--)
-      {
-        var prevToken = tokens[prev];
-        if (prevToken.TokenType == SqlParserTokenType.Whitespace ||
-            prevToken.TokenType == SqlParserTokenType.Comment)
-        {
-          continue;
-        }
-
-        // If preceded by '(', it's a subquery like "FROM (SELECT", so SELECT is valid
-        if (prevToken.TokenType == SqlParserTokenType.LeftParenthesis)
-        {
-          return false;
-        }
-
-        // If immediately preceded by FROM, JOIN, INTO, UPDATE, TABLE
-        if (prevToken.IsKeyword && TableSourceKeywords.Contains(prevToken.Text))
-        {
-          return true;
-        }
-
-        break;
-      }
-
-      return false;
+      var context = SqlEngine.Completion.SqlCompletionContextAnalyzer.Analyze(sqlText, offset);
+      return context.Kind == SqlEngine.Completion.SqlCompletionContextKind.TableSource ||
+             context.Kind == SqlEngine.Completion.SqlCompletionContextKind.InsertTable ||
+             context.Kind == SqlEngine.Completion.SqlCompletionContextKind.UpdateTable ||
+             context.Kind == SqlEngine.Completion.SqlCompletionContextKind.DeleteTable ||
+             context.Kind == SqlEngine.Completion.SqlCompletionContextKind.MergeTarget ||
+             context.Kind == SqlEngine.Completion.SqlCompletionContextKind.MergeSource;
     }
 
     /// <summary>
@@ -231,6 +151,85 @@ namespace SqlEngine
       targetSpan = (token.Offset, token.Length);
       formattedWord = newText;
       return true;
+    }
+
+    /// <summary>
+    /// Scans the SQL text and returns replacements for keywords that do not match the specified casing.
+    /// If range is specified, only keywords intersecting [range.Start, range.Start + range.Length] are returned.
+    /// Excludes identifiers, bracketed names, dot-qualified members, and table names following FROM/JOIN/INTO/UPDATE/TABLE.
+    /// </summary>
+    public static List<((int Start, int Length) Span, string FormattedText)> FormatAllKeywords(
+      string sqlText,
+      KeywordCasing casing,
+      (int Start, int Length)? range = null)
+    {
+      var replacements = new List<((int Start, int Length) Span, string FormattedText)>();
+
+      if (casing == KeywordCasing.Disabled || string.IsNullOrEmpty(sqlText))
+      {
+        return replacements;
+      }
+
+      int rangeStart = range?.Start ?? 0;
+      int rangeEnd = range.HasValue ? (range.Value.Start + range.Value.Length) : sqlText.Length;
+
+      var tokens = SqlQueryParser.ParseTokens(sqlText);
+      for (int i = 0; i < tokens.Count; i++)
+      {
+        var token = tokens[i];
+        if (!token.IsKeyword)
+        {
+          continue;
+        }
+
+        int tokenStart = token.Offset;
+        int tokenEnd = token.Offset + token.Length;
+
+        // Check intersection with highlighted range if range is specified
+        if (range.HasValue)
+        {
+          if (tokenEnd < rangeStart || tokenStart > rangeEnd)
+          {
+            continue;
+          }
+        }
+
+        // Check preceding non-trivia token
+        bool isQualifiedOrTableSource = false;
+        for (int prev = i - 1; prev >= 0; prev--)
+        {
+          var prevToken = tokens[prev];
+          if (prevToken.TokenType == SqlParserTokenType.Whitespace ||
+              prevToken.TokenType == SqlParserTokenType.Comment)
+          {
+            continue;
+          }
+
+          if (prevToken.TokenType == SqlParserTokenType.Dot ||
+              (prevToken.IsKeyword && TableSourceKeywords.Contains(prevToken.Text)))
+          {
+            isQualifiedOrTableSource = true;
+          }
+          break;
+        }
+
+        if (isQualifiedOrTableSource)
+        {
+          continue;
+        }
+
+        string originalText = token.Text;
+        string newText = (casing == KeywordCasing.Uppercase)
+          ? originalText.ToUpperInvariant()
+          : originalText.ToLowerInvariant();
+
+        if (!string.Equals(originalText, newText, StringComparison.Ordinal))
+        {
+          replacements.Add(((token.Offset, token.Length), newText));
+        }
+      }
+
+      return replacements;
     }
   }
 }

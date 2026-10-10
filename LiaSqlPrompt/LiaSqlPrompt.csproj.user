@@ -10,6 +10,9 @@
     <Compile Update="Option\GeneralOption.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Option\GeneralOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Option\SnippetOption.cs">
       <SubType>Component</SubType>
     </Compile>

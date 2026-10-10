@@ -29,17 +29,8 @@ namespace LiaSqlPrompt.Editor
 
     public void CheckAndYieldIfNativeActive()
     {
-      try
-      {
-        if (_completionPresenter.IsVisible && _completionBroker.IsCompletionActive(_view))
-        {
-          _completionPresenter.Hide();
-          _completionSpan = null;
-        }
-      }
-      catch
-      {
-      }
+      // Do not prematurely kill our active completion popup when SSMS native IntelliSense initializes in the background.
+      // Native IntelliSense will yield or LiaSqlPrompt handles navigation and selection.
     }
 
     public bool HandleTypeChar(char ch)
@@ -86,7 +77,8 @@ namespace LiaSqlPrompt.Editor
 
     public bool HandleCompleteWord()
     {
-      return false;
+      UpdateCompletion(_view.TextSnapshot, _view.Caret.Position.BufferPosition.Position, forceShow: true);
+      return _completionPresenter.IsVisible;
     }
 
     public bool HandleUp()
@@ -164,6 +156,80 @@ namespace LiaSqlPrompt.Editor
       }
     }
 
+    public void FormatAllKeywordsToUppercase()
+    {
+      try
+      {
+        var selection = _view.Selection;
+        if (selection.IsEmpty)
+          return;
+
+        var snapshot = _view.TextSnapshot;
+        string fullSql = snapshot.GetText();
+        if (string.IsNullOrEmpty(fullSql))
+          return;
+
+        // Get the highlighted selection range
+        var selectedSpan = selection.SelectedSpans[0];
+        var range = (selectedSpan.Start.Position, selectedSpan.Length);
+
+        var replacements = SqlEngine.SqlKeywordCaser.FormatAllKeywords(fullSql, SqlEngine.KeywordCasing.Uppercase, range);
+        if (replacements.Count == 0)
+          return;
+
+        using (ITextEdit edit = _view.TextBuffer.CreateEdit())
+        {
+          foreach (var r in replacements)
+          {
+            var span = new SnapshotSpan(snapshot, r.Span.Start, r.Span.Length);
+            edit.Replace(span, r.FormattedText);
+          }
+          edit.Apply();
+        }
+      }
+      catch (Exception ex)
+      {
+        Logger.Log($"Error formatting selected keywords to uppercase: {ex.Message}");
+      }
+    }
+
+    public void FormatAllKeywordsToLowercase()
+    {
+      try
+      {
+        var selection = _view.Selection;
+        if (selection.IsEmpty)
+          return;
+
+        var snapshot = _view.TextSnapshot;
+        string fullSql = snapshot.GetText();
+        if (string.IsNullOrEmpty(fullSql))
+          return;
+
+        // Get the highlighted selection range
+        var selectedSpan = selection.SelectedSpans[0];
+        var range = (selectedSpan.Start.Position, selectedSpan.Length);
+
+        var replacements = SqlEngine.SqlKeywordCaser.FormatAllKeywords(fullSql, SqlEngine.KeywordCasing.Lowercase, range);
+        if (replacements.Count == 0)
+          return;
+
+        using (ITextEdit edit = _view.TextBuffer.CreateEdit())
+        {
+          foreach (var r in replacements)
+          {
+            var span = new SnapshotSpan(snapshot, r.Span.Start, r.Span.Length);
+            edit.Replace(span, r.FormattedText);
+          }
+          edit.Apply();
+        }
+      }
+      catch (Exception ex)
+      {
+        Logger.Log($"Error formatting selected keywords to lowercase: {ex.Message}");
+      }
+    }
+
     private bool CommitSelection()
     {
       if (!_completionPresenter.IsVisible)
@@ -203,25 +269,11 @@ namespace LiaSqlPrompt.Editor
 
     private void UpdateCompletion(ITextSnapshot snapshot, int caretPosition, bool forceShow = false)
     {
-      var current = GetCurrentWord(snapshot, caretPosition);
-
-      string word = current.Word;
-
-      if (string.IsNullOrWhiteSpace(word))
-      {
-        _completionPresenter.Hide();
-        _completionSpan = null;
-
-        return;
-      }
-
-      // If native SQL Server IntelliSense is already active, yield to it and turn off our completion.
+      // If native SQL Server IntelliSense is already active before we started, yield only if our popup is not active
       try
       {
-        if (_completionBroker.IsCompletionActive(_view))
+        if (!_completionPresenter.IsVisible && _completionBroker.IsCompletionActive(_view))
         {
-          _completionPresenter.Hide();
-          _completionSpan = null;
           return;
         }
       }
@@ -229,41 +281,42 @@ namespace LiaSqlPrompt.Editor
       {
       }
 
-      // Check if current word is preceded by a dot '.', indicating a column/member access (e.g. x.i or a.id)
-      // In that case, do not show keyword completions (let SSMS column IntelliSense take over).
-      var line = snapshot.GetLineFromPosition(caretPosition);
-      string lineText = line.GetText();
-      int offsetInLine = caretPosition - line.Start.Position;
+      string fullSql = snapshot.GetText();
+      var context = SqlEngine.Completion.SqlCompletionContextAnalyzer.Analyze(fullSql, caretPosition);
 
-      if (SqlEngine.SqlKeywordCaser.IsPrecededByDot(lineText, offsetInLine))
+      // In column reference or table source contexts, suppress keyword completion to allow native SSMS IntelliSense
+      if (context.Kind == SqlEngine.Completion.SqlCompletionContextKind.ColumnReference ||
+          context.Kind == SqlEngine.Completion.SqlCompletionContextKind.TableSource)
       {
         _completionPresenter.Hide();
         _completionSpan = null;
         return;
       }
 
-      // Check if current word is immediately after FROM, JOIN, INTO, UPDATE, TABLE
-      // where a table/object name or alias is expected rather than a keyword recommendation (e.g. select * from select).
-      if (SqlEngine.SqlKeywordCaser.IsInTableSourceContext(lineText, offsetInLine))
+      var items = _completionService.Search(context);
+
+      // Do not auto-popup when prefix is empty unless explicitly invoked (e.g. Ctrl+Space / forceShow)
+      if (!forceShow && (string.IsNullOrEmpty(context.Prefix) || items.Count == 0))
       {
         _completionPresenter.Hide();
         _completionSpan = null;
         return;
       }
 
-      var items = _completionService.Search(word);
+      string prefix = context.Prefix ?? string.Empty;
+      int prefixStart = Math.Max(0, caretPosition - prefix.Length);
 
-      if (!forceShow && items.Count == 0)
-      {
-        _completionPresenter.Hide();
-        _completionSpan = null;
-
-        return;
-      }
-
-      _completionSpan = snapshot.CreateTrackingSpan(current.Start, word.Length, SpanTrackingMode.EdgeInclusive);
-
+      _completionSpan = snapshot.CreateTrackingSpan(prefixStart, prefix.Length, SpanTrackingMode.EdgeInclusive);
       _completionPresenter.Show(items);
+
+      // Dismiss native SSMS completion so it does not steal focus, conflict, or trigger auto-dismissal
+      try
+      {
+        _completionBroker.DismissAllSessions(_view);
+      }
+      catch
+      {
+      }
     }
 
     private (string Word, int Start) GetCurrentWord(ITextSnapshot snapshot, int caretPosition)

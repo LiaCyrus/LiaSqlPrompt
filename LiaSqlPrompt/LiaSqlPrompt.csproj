@@ -19,11 +19,17 @@
 	<PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <VSCTCompile Include="LiaSqlPromptPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SqlEngine\SqlEngine.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Design" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidLiaSqlPromptPackage">
+    <Buttons>
+      <Button guid="guidLiaSqlPromptCmdSet" id="cmdidFormatKeywordsUppercase" priority="0x0100" type="Button">
+        <Strings>
+          <ButtonText>Format SQL Keywords to Uppercase</ButtonText>
+          <LocCanonicalName>LiaSqlPrompt.FormatKeywordsUppercase</LocCanonicalName>
+        </Strings>
+      </Button>
+      <Button guid="guidLiaSqlPromptCmdSet" id="cmdidFormatKeywordsLowercase" priority="0x0101" type="Button">
+        <Strings>
+          <ButtonText>Format SQL Keywords to Lowercase</ButtonText>
+          <LocCanonicalName>LiaSqlPrompt.FormatKeywordsLowercase</LocCanonicalName>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <KeyBindings>
+    <KeyBinding guid="guidLiaSqlPromptCmdSet" id="cmdidFormatKeywordsUppercase" editor="guidVSStd97" key1="B" mod1="Control" key2="U" mod2="Control"/>
+    <KeyBinding guid="guidLiaSqlPromptCmdSet" id="cmdidFormatKeywordsLowercase" editor="guidVSStd97" key1="B" mod1="Control" key2="L" mod2="Control"/>
+  </KeyBindings>
+
+  <Symbols>
+    <GuidSymbol name="guidLiaSqlPromptPackage" value="{7ab28415-54a1-47b2-95a4-9e910a75e118}" />
+
+    <GuidSymbol name="guidLiaSqlPromptCmdSet" value="{8bb6cf4b-4a57-4b89-a2e6-a05d21a28723}">
+      <IDSymbol name="cmdidFormatKeywordsUppercase" value="0x0100" />
+      <IDSymbol name="cmdidFormatKeywordsLowercase" value="0x0101" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

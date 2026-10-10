@@ -28,12 +28,39 @@ namespace LiaSqlPrompt.Editor
     {
       ThreadHelper.ThrowIfNotOnUIThread();
 
+      if (pguidCmdGroup == PackageIds.CommandSetGuid)
+      {
+        for (uint i = 0; i < cCmds; i++)
+        {
+          if (prgCmds[i].cmdID == PackageIds.FormatKeywordsUppercaseCommandId ||
+              prgCmds[i].cmdID == PackageIds.FormatKeywordsLowercaseCommandId)
+          {
+            prgCmds[i].cmdf = (uint)(OLECMDF.OLECMDF_SUPPORTED | OLECMDF.OLECMDF_ENABLED);
+            return VSConstants.S_OK;
+          }
+        }
+      }
+
       return _next!.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
     }
 
     public int Exec(ref System.Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, System.IntPtr pvaIn, System.IntPtr pvaOut)
     {
       ThreadHelper.ThrowIfNotOnUIThread();
+
+      if (pguidCmdGroup == PackageIds.CommandSetGuid)
+      {
+        if (nCmdID == PackageIds.FormatKeywordsUppercaseCommandId)
+        {
+          _controller.FormatAllKeywordsToUppercase();
+          return VSConstants.S_OK;
+        }
+        else if (nCmdID == PackageIds.FormatKeywordsLowercaseCommandId)
+        {
+          _controller.FormatAllKeywordsToLowercase();
+          return VSConstants.S_OK;
+        }
+      }
 
       if (pguidCmdGroup == VSConstants.VSStd2K)
       {
@@ -82,10 +109,15 @@ namespace LiaSqlPrompt.Editor
           case VSConstants.VSStd2KCmdID.DOWN:
             handled = _controller.HandleDown();
             break;
+          default:
+            break;
         }
 
         if (handled)
           return VSConstants.S_OK;
+      }
+      else
+      {
       }
 
       int result = _next!.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);

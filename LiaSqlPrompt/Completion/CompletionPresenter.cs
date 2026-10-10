@@ -1,4 +1,4 @@
-﻿using LiaSqlPrompt.Completion;
+using LiaSqlPrompt.Completion;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
@@ -43,7 +43,6 @@ namespace LiaSqlPrompt.Completion
       _popup.Child = _listBox;
 
       _view.LayoutChanged += OnLayoutChanged;
-      _view.LostAggregateFocus += OnLostAggregateFocus;
       _view.Closed += OnViewClosed;
     }
 
@@ -134,7 +133,6 @@ namespace LiaSqlPrompt.Completion
 
       if (!line.IsValid)
       {
-        Hide();
         return;
       }
 
@@ -152,15 +150,9 @@ namespace LiaSqlPrompt.Completion
       UpdatePosition();
     }
 
-    private void OnLostAggregateFocus(object sender, EventArgs e)
-    {
-      Hide();
-    }
-
     private void OnViewClosed(object sender, EventArgs e)
     {
       _view.LayoutChanged -= OnLayoutChanged;
-      _view.LostAggregateFocus -= OnLostAggregateFocus;
       _view.Closed -= OnViewClosed;
 
       Hide();

@@ -28,10 +28,10 @@ namespace SqlEngine.Parsing
     public int Length => Text.Length;
     public bool IsKeyword { get; }
 
-    public SqlParsedToken(SqlParserTokenType tokenType, string text, int offset, bool isKeyword)
+    public SqlParsedToken(SqlParserTokenType tokenType, string? text, int offset, bool isKeyword)
     {
       TokenType = tokenType;
-      Text = text;
+      Text = text ?? string.Empty;
       Offset = offset;
       IsKeyword = isKeyword;
     }

@@ -1,4 +1,96 @@
 {
+  "statementStart": [
+    "SELECT", "INSERT", "UPDATE", "DELETE", "MERGE", "CREATE", "ALTER", "DROP",
+    "EXEC", "EXECUTE", "WITH", "DECLARE", "SET", "IF", "WHILE", "BEGIN",
+    "BEGIN TRANSACTION", "COMMIT", "ROLLBACK", "SAVE TRANSACTION", "USE",
+    "PRINT", "THROW", "RAISERROR", "WAITFOR", "TRUNCATE"
+  ],
+  "queryClauses": [
+    "WHERE", "JOIN", "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN",
+    "CROSS JOIN", "GROUP BY", "HAVING", "ORDER BY", "UNION", "UNION ALL",
+    "EXCEPT", "INTERSECT", "AND", "OR", "ON"
+  ],
+  "whereExpressions": [
+    "AND", "OR", "NOT", "IN", "BETWEEN", "LIKE", "IS NULL", "IS NOT NULL",
+    "EXISTS", "CASE", "WHEN", "THEN", "ELSE", "END"
+  ],
+  "joinConditions": [
+    "AND", "OR", "NOT", "IN", "BETWEEN", "LIKE", "IS NULL", "IS NOT NULL"
+  ],
+  "orderByExpressions": [
+    "ASC", "DESC"
+  ],
+  "selectExpressions": [
+    "DISTINCT", "TOP", "CASE", "WHEN", "THEN", "ELSE", "END", "AS", "FROM",
+    "COUNT", "SUM", "AVG", "MIN", "MAX"
+  ],
+  "insertInto": [
+    "INTO", "TOP", "OUTPUT"
+  ],
+  "insertValues": [
+    "VALUES", "SELECT", "EXEC", "EXECUTE", "DEFAULT VALUES"
+  ],
+  "updateSet": [
+    "SET"
+  ],
+  "updateClauses": [
+    "WHERE", "FROM", "OUTPUT"
+  ],
+  "deleteClauses": [
+    "FROM", "TOP", "WHERE", "OUTPUT"
+  ],
+  "mergeInto": [
+    "INTO"
+  ],
+  "mergeUsing": [
+    "USING"
+  ],
+  "mergeWhen": [
+    "WHEN MATCHED THEN", "WHEN NOT MATCHED THEN", "WHEN NOT MATCHED BY TARGET THEN", "WHEN NOT MATCHED BY SOURCE THEN"
+  ],
+  "mergeActions": [
+    "UPDATE SET", "DELETE", "INSERT"
+  ],
+  "createObjects": [
+    "TABLE", "VIEW", "PROCEDURE", "FUNCTION", "TRIGGER", "INDEX", "SCHEMA", "DATABASE", "SYNONYM", "SEQUENCE", "TYPE"
+  ],
+  "alterObjects": [
+    "TABLE", "VIEW", "PROCEDURE", "FUNCTION", "TRIGGER", "INDEX", "SCHEMA", "DATABASE", "SEQUENCE"
+  ],
+  "alterTableActions": [
+    "ADD", "ALTER COLUMN", "DROP COLUMN", "ADD CONSTRAINT", "DROP CONSTRAINT",
+    "ENABLE TRIGGER", "DISABLE TRIGGER", "CHECK CONSTRAINT", "NOCHECK CONSTRAINT"
+  ],
+  "dropObjects": [
+    "TABLE", "VIEW", "PROCEDURE", "FUNCTION", "TRIGGER", "INDEX", "SCHEMA", "DATABASE", "SYNONYM", "SEQUENCE"
+  ],
+  "dataTypes": [
+    "INT", "BIGINT", "SMALLINT", "TINYINT", "BIT", "DECIMAL", "NUMERIC",
+    "MONEY", "SMALLMONEY", "FLOAT", "REAL", "DATE", "DATETIME", "DATETIME2",
+    "SMALLDATETIME", "TIME", "DATETIMEOFFSET", "CHAR", "VARCHAR", "TEXT",
+    "NCHAR", "NVARCHAR", "NTEXT", "BINARY", "VARBINARY", "IMAGE", "XML",
+    "UNIQUEIDENTIFIER", "MAX", "NULL", "NOT NULL", "PRIMARY KEY", "IDENTITY", "DEFAULT"
+  ],
+  "functions": [
+    "COUNT", "SUM", "AVG", "MIN", "MAX", "COALESCE", "ISNULL", "NULLIF",
+    "CAST", "CONVERT", "ROW_NUMBER", "RANK", "DENSE_RANK", "NTILE",
+    "GETDATE", "GETUTCDATE", "SYSDATETIME", "DATEDIFF", "DATEADD", "DATEPART",
+    "LEN", "DATALENGTH", "SUBSTRING", "CHARINDEX", "REPLACE", "UPPER", "LOWER", "LTRIM", "RTRIM", "TRIM"
+  ],
+  "transactions": [
+    "TRANSACTION", "WORK"
+  ],
+  "waitFor": [
+    "DELAY", "TIME"
+  ],
+  "setOptions": [
+    "NOCOUNT ON", "NOCOUNT OFF", "XACT_ABORT ON", "XACT_ABORT OFF",
+    "ANSI_NULLS ON", "ANSI_NULLS OFF", "QUOTED_IDENTIFIER ON", "QUOTED_IDENTIFIER OFF",
+    "TRANSACTION ISOLATION LEVEL"
+  ],
+  "cte": [
+    "AS"
+  ],
   "keywords": [
     "SELECT", "FROM", "WHERE", "GROUP", "BY", "HAVING", "ORDER", "ASC", "DESC",
     "INSERT", "INTO", "VALUES", "UPDATE", "SET", "DELETE", "MERGE", "MATCHED",
@@ -17,18 +109,6 @@
     "EXEC", "EXECUTE", "WITH", "RECURSIVE", "CTE", "OVER", "PARTITION",
     "GRANT", "REVOKE", "DENY", "USER", "ROLE", "LOGIN"
   ],
-  "dataTypes": [
-    "INT", "BIGINT", "SMALLINT", "TINYINT", "BIT", "DECIMAL", "NUMERIC",
-    "MONEY", "SMALLMONEY", "FLOAT", "REAL", "DATE", "DATETIME", "DATETIME2",
-    "SMALLDATETIME", "TIME", "DATETIMEOFFSET", "CHAR", "VARCHAR", "TEXT",
-    "NCHAR", "NVARCHAR", "NTEXT", "BINARY", "VARBINARY", "IMAGE", "XML",
-    "UNIQUEIDENTIFIER", "MAX"
-  ],
-  "functions": [
-    "COUNT", "SUM", "AVG", "MIN", "MAX", "COALESCE", "ISNULL", "NULLIF",
-    "CAST", "CONVERT", "ROW_NUMBER", "RANK", "DENSE_RANK", "NTILE",
-    "GETDATE", "GETUTCDATE", "SYSDATETIME", "DATEDIFF", "DATEADD", "DATEPART",
-    "LEN", "DATALENGTH", "SUBSTRING", "CHARINDEX", "REPLACE", "UPPER", "LOWER", "LTRIM", "RTRIM", "TRIM"
-  ],
-  "custom": []
+  "custom": [],
+  "typedKeywords": []
 }

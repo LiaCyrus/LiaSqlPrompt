@@ -36,6 +36,9 @@ LiaSqlPrompt/
 │   │
 │   ├── Option/
 │   │   ├── GeneralOption.cs
+│   │   ├── GeneralOptionControl.xaml
+│   │   ├── GeneralOptionControl.xaml.cs
+│   │   ├── GeneralOptionPage.cs
 │   │   ├── OptionService.cs
 │   │   ├── SnippetOption.cs
 │   │   ├── SnippetOptionControl.xaml
@@ -212,7 +215,8 @@ Example:
 ├── coding-rules.md
 ├── completion.md
 ├── snippets.md
+├── classes-reference.md
 └── decisions/
 ```
 
-Read the relevant `.agent/` documentation when working on a specific subsystem.
+Read the relevant `.agent/` documentation when working on a specific subsystem. See [.agent/classes-reference.md](file:///c:/MyGitHub/LiaSqlPrompt/.agent/classes-reference.md) for a summary of all classes, functions, and subsystems.
